@@ -17,15 +17,23 @@ void help_page()
 
 int main(int argc, const char* argv[])
 {
-    string text = "";
-    if (argc > 2) {
+    string text;
+    char mode;
+    if (argc > 1) {
         // Tampilkan laman bantuan
         // dan selesai
-        if (string(argv[2]) == "-h") {
+        if (string(argv[1]) == "-h") {
             help_page();
             return 0;
         }
 
+        if (argc < 3) {
+            cout << "\33[31merror\33[0m: no text is given\n";
+            return 0;
+        }
+
+        // Set mode sesuai masukan
+        mode = argv[1][0];
         // Iterasi daftar [options]
         for (int i = 2; i < argc - 1; ++i) {
             switch (argv[i][1]) {

@@ -108,9 +108,17 @@ int main(int argc, const char* argv[])
                 break;
             }
         }
+
         // Error bila tidak menemukan text
         if (text_start == 0) {
             cout << "\33[31merror\33[0m: no text is given\n";
+            return 0;
+        }
+
+        // Error jika mode tidak disediakan
+        // atau salah
+        if (argv[1][0] != 'd' || argv[1][0] != 'e') {
+            cout << "\33[31merror\33[0m: no mode is specified\n";
             return 0;
         }
 

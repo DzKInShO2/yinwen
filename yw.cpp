@@ -2,13 +2,38 @@
 using namespace std;
 
 struct Text {
-    string content;
     char mode;
+    string content;
 };
 
+/*
+ * Implementasi Caesar cipher
+ */
+void caesar_cipher(Text& text, int key)
+{
+    for (int i = text.content.size() - 2; i >= 0; --i) {
+        if (text.content[i] == ' ') {
+            continue;
+        }
+
+        char c = text.content[i] + key * (text.mode == 'e' ? 1 : -1);
+        if (text.content[i] >= 'a' && text.content[i] <= 'z') {
+            if (c - 'z' > 0)
+                c = '`' + (c - 'z');
+        } else if (text.content[i] >= 'A' && text.content[i] <= 'Z') {
+            if (c - 'Z' > 0)
+                c = '@' + (c - 'Z');
+        }
+        text.content[i] = c;
+    }
+}
+
+/*
+ * Implementasi reverse cipher
+ */
 void reverse_cipher(Text& text)
 {
-    int n = text.content.size();
+    const int& n = text.content.size();
     for (int i = 0; i < n / 2; ++i) {
         char c = text.content[i];
         text.content[i] = text.content[n - i - 1];
@@ -27,6 +52,7 @@ void help_page()
          << "e encrypt text\n"
          << "d decrypt text\n"
          << "Options:\n"
+         << " -c key Caesar cipher\n"
          << " -r reverse cipher\n"
          << " -h show this page\n";
 }
@@ -69,6 +95,8 @@ int main(int argc, const char* argv[])
         // Iterasi daftar [options]
         for (int i = 2; i < text_start - 1; ++i) {
             switch (argv[i][1]) {
+                case 'c': caesar_cipher(text, stoi(argv[++i]));
+                    break;
                 case 'r': reverse_cipher(text);
                     break;
                 case 'h': help_page();

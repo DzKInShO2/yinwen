@@ -11,18 +11,25 @@ struct Text {
  */
 void caesar_cipher(Text& text, int key)
 {
-    for (int i = text.content.size() - 2; i >= 0; --i) {
+    for (int i = 0; i < text.content.size(); ++i) {
         if (text.content[i] == ' ') {
             continue;
         }
 
-        char c = text.content[i] + key * (text.mode == 'e' ? 1 : -1);
+        char c = text.content[i];
+        if (text.mode == 'e') c += key;
+        else if (text.mode == 'd') c -= key;
+
         if (text.content[i] >= 'a' && text.content[i] <= 'z') {
-            if (c - 'z' > 0)
+            if (text.mode == 'e' && c - 'z' > 0)
                 c = '`' + (c - 'z');
+            else if (text.mode == 'd' && c < 'a')
+                c = '{' - ('a' - c);
         } else if (text.content[i] >= 'A' && text.content[i] <= 'Z') {
-            if (c - 'Z' > 0)
+            if (text.mode == 'e' && c - 'Z' > 0)
                 c = '@' + (c - 'Z');
+            else if (text.mode == 'd' && c < 'A')
+                c = '[' - ('A' - c);
         }
         text.content[i] = c;
     }

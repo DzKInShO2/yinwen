@@ -12,6 +12,22 @@ struct Text {
 void atbash_cipher(Text& text)
 {
     for (int i = 0; i < text.content.size(); ++i) {
+        if (text.content[i] == ' ')
+            continue;
+
+        if (text.content[i] >= 'a' && text.content[i] <= 'z') {
+            if (text.content[i] - '`' > '{' - text.content[i]) {
+                text.content[i] = '{' - (text.content[i] - '`');
+            } else if (text.content[i] - '`' < '{' - text.content[i]){
+                text.content[i] = '`' + ('{' - text.content[i]);
+            }
+        } else if (text.content[i] >= 'A' && text.content[i] <= 'Z') {
+            if (text.content[i] - '@' > '[' - text.content[i]) {
+                text.content[i] = '[' - (text.content[i] - '@');
+            } else if (text.content[i] - '@' < '[' - text.content[i]) {
+                text.content[i] = '@' + ('[' - text.content[i]);
+            }
+        }
     }
 }
 
@@ -21,9 +37,8 @@ void atbash_cipher(Text& text)
 void caesar_cipher(Text& text, int key)
 {
     for (int i = 0; i < text.content.size(); ++i) {
-        if (text.content[i] == ' ') {
+        if (text.content[i] == ' ')
             continue;
-        }
 
         char c = text.content[i];
         if (text.mode == 'e') c += key;

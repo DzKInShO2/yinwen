@@ -7,6 +7,15 @@ struct Text {
 };
 
 /*
+ * Implementasi Atbash cipher
+ */
+void atbash_cipher(Text& text)
+{
+    for (int i = 0; i < text.content.size(); ++i) {
+    }
+}
+
+/*
  * Implementasi Caesar cipher
  */
 void caesar_cipher(Text& text, int key)
@@ -59,6 +68,7 @@ void help_page()
          << "e encrypt text\n"
          << "d decrypt text\n"
          << "Options:\n"
+         << " -a Atbash cipher\n"
          << " -c key Caesar cipher\n"
          << " -r reverse cipher\n"
          << " -h show this page\n";
@@ -102,6 +112,8 @@ int main(int argc, const char* argv[])
         // Iterasi daftar [options]
         for (int i = 2; i < text_start - 1; ++i) {
             switch (argv[i][1]) {
+                case 'a': atbash_cipher(text);
+                    break;
                 case 'c': caesar_cipher(text, stoi(argv[++i]));
                     break;
                 case 'r': reverse_cipher(text);

@@ -117,7 +117,7 @@ int main(int argc, const char* argv[])
 
         // Error jika mode tidak disediakan
         // atau salah
-        if (argv[1][0] != 'd' || argv[1][0] != 'e') {
+        if (argv[1][0] != 'd' && argv[1][0] != 'e') {
             cout << "\33[31merror\33[0m: no mode is specified\n";
             return 0;
         }

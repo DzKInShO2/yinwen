@@ -73,20 +73,66 @@ void reverse_cipher(Text& text)
 }
 
 /*
+ * Implementasi Vigenere ciper
+ * */
+void vigenere_cipher(Text& text, const string& key)
+{
+    string& s = text.content;
+    for (int i = 0, j = 0; i < text.content.size(); ++i) {
+        if (s[i] == ' '|| 
+            !((s[i] < '[' && s[i] > '@') || s[i] <'{' && s[i] > '`')) {
+            j++;
+            continue;
+        }
+        char k = key[(i - j) % key.size()];
+        if (k < '[' && k > '@')
+            k = k - 'A';
+        else if (k < '{' && k > '`')
+            k = k - 'a';
+
+        if (s[i] < '[' && s[i] > '@') {
+            int c = 0;
+            if (text.mode == 'e') {
+                c = (int)(s[i] - 'A') + k;
+                if (c >= 26) c -= 26;
+            }
+            else { 
+                c = (int)(s[i] - 'A') - k;
+                if (c < 0) c += 26;
+            }
+
+            s[i] = c + 'A';
+        } else if (s[i] < '{' && s[i] > '`') {
+            int c = 0;
+            if (text.mode == 'e') {
+                c = (int)(s[i] - 'a') + k;
+                if (c >= 26) c-= 26;
+            } else {
+                c = (int)(s[i] - 'a') - k;
+                if (c < 0) c += 26;
+            }
+
+            s[i] = c + 'a';
+        }
+    }
+}
+
+/*
  * Menampilkan laman bantuan
  */
 void help_page()
 {
     cout << "Usage: yw [mode] [options]... -i text\n"
-         << "Encrypt or decrypt text based on the options given.\n\n"
-         << "Mode:\n"
-         << "e encrypt text\n"
-         << "d decrypt text\n"
-         << "Options:\n"
-         << " -a Atbash cipher\n"
-         << " -c key Caesar cipher\n"
-         << " -r reverse cipher\n"
-         << " -h show this page\n";
+            "Encrypt or decrypt text based on the options given.\n\n"
+            "Mode:\n"
+            "e encrypt text\n"
+            "d decrypt text\n"
+            "Options:\n"
+            " -a Atbash cipher\n"
+            " -c [key] Caesar cipher\n"
+            " -r reverse cipher\n"
+            " -v [word] Vigenere cipher\n"
+            " -h show this page\n";
 }
 
 int main(int argc, const char* argv[])
@@ -140,6 +186,8 @@ int main(int argc, const char* argv[])
                 case 'c': caesar_cipher(text, stoi(argv[++i]));
                     break;
                 case 'r': reverse_cipher(text);
+                    break;
+                case 'v': vigenere_cipher(text, argv[++i]);
                     break;
                 case 'h': help_page();
                     return 0;

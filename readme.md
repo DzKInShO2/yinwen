@@ -29,5 +29,8 @@ Options:
  -h show this page
 
 $ ./yw e -a -i Hello, World! // Cipher the text using Atbash cipher
-$ ./yw d -v lemon -i Lxfopv Ef Rnhr 12 // Decipher Vigenere ciphered text
+Svool, Dliow!
+
+$ ./yw d -a -i Svool, Dliow! // Decipher Atbash ciphered text
+Hello, World!
 ```

@@ -15,6 +15,6 @@ $ ./yw
 ```
 $ ./yw     // Show help screen
 $ ./yw -h  //
-$ ./yw e -a -i Hello, World! // Cipher the text using at bash cipher
+$ ./yw e -a -i Hello, World! // Cipher the text using Atbash cipher
 $ ./yw d -v lemon -i Lxfopv Ef Rnhr 12 // Decipher Vigenere ciphered text
 ```

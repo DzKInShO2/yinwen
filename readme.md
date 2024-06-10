@@ -7,15 +7,14 @@ This project aims to create a simple cipher tool that could cipher and decipher 
 
 ## Quick Start
 ```
-g++ yw.cpp -o yw
-./yw
+$ g++ yw.cpp -o yw
+$ ./yw
 ```
 
 ## Example of Use
 ```
-./yw     // Show help screen
-./yw -h  //
-
-./yw e -a -i Hello, World! // Cipher the text using at bash cipher
-./yw d -v lemon -i Lxfopv Ef Rnhr 12 // Decipher Vigenere ciphered text
+$ ./yw     // Show help screen
+$ ./yw -h  //
+$ ./yw e -a -i Hello, World! // Cipher the text using at bash cipher
+$ ./yw d -v lemon -i Lxfopv Ef Rnhr 12 // Decipher Vigenere ciphered text
 ```

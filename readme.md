@@ -15,6 +15,19 @@ $ ./yw
 ```
 $ ./yw     // Show help screen
 $ ./yw -h  //
+Usage: yw [mode] [options]... -i text
+Encrypt or decrypt text based on the options given.
+
+Mode:
+e encrypt text
+d decrypt text
+Options:
+ -a Atbash cipher
+ -c [key] Caesar cipher
+ -r reverse cipher
+ -v [word] Vigenere cipher
+ -h show this page
+
 $ ./yw e -a -i Hello, World! // Cipher the text using Atbash cipher
 $ ./yw d -v lemon -i Lxfopv Ef Rnhr 12 // Decipher Vigenere ciphered text
 ```

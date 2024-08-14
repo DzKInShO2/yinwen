@@ -1,6 +1,6 @@
-# YinWen(隐文): Basic CLI Text Encryption and Decription Tool
+# YinWen: Basic CLI Text Encryption and Decription Tool
 
-This project aims to create a simple cipher cli (command line interface) tool that could cipher and decipher text.
+This project aims to create a simple cipher cli (command line interface) tool that could cipher and decipher text created for my university assignment.
 
 ## Requirements
 - g++

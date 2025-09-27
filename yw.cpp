@@ -62,6 +62,17 @@ int main(int argc, const char* argv[])
  */
 bool iterate_arguments(Text& text, const char **args, int start, int end)
 {
+    if (text.mode != 'e' || text.mode != 'd') {
+        clog << "\33[31merror\33[0m: option "
+            << text.mode << " is not valid mode\n";
+        return false;
+    }
+
+    if (string(args[end - 1]) != "-i") {
+        clog << "\33[31merror\33[0m: option end given is not valid\n";
+        return false;
+    }
+
     for (int i = start; i < end - 1; ++i) {
         switch (args[i][1]) {
         case 'a': atbash_cipher(text.content, text.mode);

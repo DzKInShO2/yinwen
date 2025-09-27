@@ -1,121 +1,12 @@
 #include <iostream>
 using namespace std;
 
+#include "cipher.h"
+
 struct Text {
     char mode;
     string content;
 };
-
-/*
- * Implementasi Atbash cipher
- */
-void atbash_cipher(Text& text)
-{
-    for (int i = 0; i < text.content.size(); ++i) {
-        if (text.content[i] == ' ')
-            continue;
-
-        if (text.content[i] >= 'a' && text.content[i] <= 'z') {
-            if (text.content[i] - '`' > '{' - text.content[i]) {
-                text.content[i] = '{' - (text.content[i] - '`');
-            } else if (text.content[i] - '`' < '{' - text.content[i]){
-                text.content[i] = '`' + ('{' - text.content[i]);
-            }
-        } else if (text.content[i] >= 'A' && text.content[i] <= 'Z') {
-            if (text.content[i] - '@' > '[' - text.content[i]) {
-                text.content[i] = '[' - (text.content[i] - '@');
-            } else if (text.content[i] - '@' < '[' - text.content[i]) {
-                text.content[i] = '@' + ('[' - text.content[i]);
-            }
-        }
-    }
-}
-
-/*
- * Implementasi Caesar cipher
- */
-void caesar_cipher(Text& text, int key)
-{
-    for (int i = 0; i < text.content.size(); ++i) {
-        if (text.content[i] == ' ')
-            continue;
-
-        char c = text.content[i];
-        if (text.mode == 'e') c += key;
-        else if (text.mode == 'd') c -= key;
-
-        if (text.content[i] >= 'a' && text.content[i] <= 'z') {
-            if (text.mode == 'e' && c - 'z' > 0)
-                c = '`' + (c - 'z');
-            else if (text.mode == 'd' && c < 'a')
-                c = '{' - ('a' - c);
-        } else if (text.content[i] >= 'A' && text.content[i] <= 'Z') {
-            if (text.mode == 'e' && c - 'Z' > 0)
-                c = '@' + (c - 'Z');
-            else if (text.mode == 'd' && c < 'A')
-                c = '[' - ('A' - c);
-        }
-        text.content[i] = c;
-    }
-}
-
-/*
- * Implementasi reverse cipher
- */
-void reverse_cipher(Text& text)
-{
-    const int& n = text.content.size();
-    for (int i = 0; i < n / 2; ++i) {
-        char c = text.content[i];
-        text.content[i] = text.content[n - i - 1];
-        text.content[n - i - 1] = c;
-    }
-}
-
-/*
- * Implementasi Vigenere ciper
- * */
-void vigenere_cipher(Text& text, const string& key)
-{
-    string& s = text.content;
-    for (int i = 0, j = 0; i < text.content.size(); ++i) {
-        if (s[i] == ' '|| 
-            !((s[i] < '[' && s[i] > '@') || s[i] <'{' && s[i] > '`')) {
-            j++;
-            continue;
-        }
-        char k = key[(i - j) % key.size()];
-        if (k < '[' && k > '@')
-            k = k - 'A';
-        else if (k < '{' && k > '`')
-            k = k - 'a';
-
-        if (s[i] < '[' && s[i] > '@') {
-            int c = 0;
-            if (text.mode == 'e') {
-                c = (int)(s[i] - 'A') + k;
-                if (c >= 26) c -= 26;
-            }
-            else { 
-                c = (int)(s[i] - 'A') - k;
-                if (c < 0) c += 26;
-            }
-
-            s[i] = c + 'A';
-        } else if (s[i] < '{' && s[i] > '`') {
-            int c = 0;
-            if (text.mode == 'e') {
-                c = (int)(s[i] - 'a') + k;
-                if (c >= 26) c-= 26;
-            } else {
-                c = (int)(s[i] - 'a') - k;
-                if (c < 0) c += 26;
-            }
-
-            s[i] = c + 'a';
-        }
-    }
-}
 
 /*
  * Menampilkan laman bantuan
@@ -181,13 +72,13 @@ int main(int argc, const char* argv[])
         // Iterasi daftar [options]
         for (int i = 2; i < text_start - 1; ++i) {
             switch (argv[i][1]) {
-                case 'a': atbash_cipher(text);
+                case 'a': atbash_cipher(text.content, text.mode);
                     break;
-                case 'c': caesar_cipher(text, stoi(argv[++i]));
+                case 'c': caesar_cipher(text.content, text.mode, stoi(argv[++i]));
                     break;
-                case 'r': reverse_cipher(text);
+                case 'r': reverse_cipher(text.content, text.mode);
                     break;
-                case 'v': vigenere_cipher(text, argv[++i]);
+                case 'v': vigenere_cipher(text.content, text.mode, argv[++i]);
                     break;
                 case 'h': help_page();
                     return 0;

@@ -7,7 +7,7 @@ This project aims to create a simple cipher cli (command line interface) tool th
 
 ## Quick Start
 ```
-$ g++ yw.cpp cipher.cpp -o yw
+$ g++ src/main.cpp src/yw.cpp src/cipher.cpp -o yw
 $ ./yw
 ```
 

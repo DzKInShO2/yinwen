@@ -15,6 +15,11 @@ int get_text_start(const char **argv, int argc)
         }
     }
 
+    if (text_start == 0) {
+        clog << "\33[31merror\33[0m: no text is given\n";
+        exit(0);
+    }
+
     return text_start;
 }
 

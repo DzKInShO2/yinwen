@@ -3,21 +3,42 @@ using namespace std;
 
 #include "yw.h"
 #include "cipher.h"
+#include <cstdlib>
 
-/*
- * Menjalani semua argument dan aplikasikan perubahan ke teks
- */
-bool iterate_arguments(Text& text, const char **args, int start, int end)
+int get_text_start(const char **argv, int argc)
 {
-    if (text.mode != 'e' || text.mode != 'd') {
-        clog << "\33[31merror\33[0m: option "
-            << text.mode << " is not valid mode\n";
-        return false;
+    int text_start = 0;
+    for (int i = 2; i < argc; ++i) {
+        if (string(argv[i]) == "-i") {
+            text_start = i + 1;
+            break;
+        }
     }
 
-    if (string(args[end - 1]) != "-i") {
-        clog << "\33[31merror\33[0m: option end given is not valid\n";
-        return false;
+    return text_start;
+}
+
+std::string get_text_content(int text_start, const char **argv, int argc)
+{
+    std::string content;
+    for (int i = text_start; i < argc; ++i) {
+        content += argv[i];
+        if (i != argc - 1) content += " ";
+    }
+
+    return content;
+}
+
+/*
+ * Menjalani semua argument dan aplikasikan perubahan ke teks */
+std::string get_processed_text(Text& text, const char **args, int start, int end)
+{
+    // Error jika mode tidak disediakan
+    // atau salah
+    if (text.mode != 'd' && text.mode != 'e') {
+        clog << "\33[31merror\33[0m: mode " 
+            << text.mode << " is not valid\n";
+        exit(0);
     }
 
     for (int i = start; i < end - 1; ++i) {
@@ -35,11 +56,11 @@ bool iterate_arguments(Text& text, const char **args, int start, int end)
         default:
                   clog << "\33[31merror\33[0m: option "
                       << args[i] << " is not valid option\n";
-                  return false;
+                  return "";
         }
     }
 
-    return true;
+    return text.content;
 }
 
 /*

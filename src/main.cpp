@@ -15,24 +15,11 @@ int main(int argc, const char* argv[])
         }
 
         // Mencari awal dari kalimat
-        int text_start = 0;
-        for (int i = 2; i < argc; ++i) {
-            if (string(argv[i]) == "-i") {
-                text_start = i + 1;
-                break;
-            }
-        }
+        int text_start = get_text_start(argv, argc);
 
         // Error bila tidak menemukan text
         if (text_start == 0) {
             clog << "\33[31merror\33[0m: no text is given\n";
-            return 0;
-        }
-
-        // Error jika mode tidak disediakan
-        // atau salah
-        if (argv[1][0] != 'd' && argv[1][0] != 'e') {
-            clog << "\33[31merror\33[0m: no mode is specified\n";
             return 0;
         }
 
@@ -41,16 +28,10 @@ int main(int argc, const char* argv[])
 
         // Memasukan kalimat dalam
         // variabel text
-        for (int i = text_start; i < argc; ++i) {
-            text.content += argv[i];
-            if (i != argc - 1) text.content += " ";
-        }
+        text.content = get_text_content(text_start, argv, argc);
 
-        // Iterasi daftar [options]
-        if (iterate_arguments(text, argv, 2, text_start)) {
-            // Mengeluarkan hasil akhir
-            cout << text.content << endl;
-        }
+        // Iterasi daftar [options] dan Mengeluarkan hasil akhir
+        cout << get_processed_text(text, argv, 2, text_start) << endl;
     } else help_page();
 
     return 0;
